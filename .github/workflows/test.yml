@@ -1,0 +1,61 @@
+name: Running Locust Load Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'target environment'
+        required: true
+        default: 'github'
+        type: string
+        options:
+        - github
+        - aws
+        - azure
+      host:
+        required: true
+        type: string
+        options:
+          - https://prod.playback.h264.io
+        default: "https://prod.playback.h264.io"
+        description: "Host"
+      endpoint:
+        required: true
+        type: string
+        default: "integration"
+        description: "endpoint"
+      users:
+        required: true
+        type: string
+        default: "5"
+        description: "Number of users"
+      spawn-rate:
+        description: "spawn-rate"
+        type: string
+        required: true
+        default: "5"
+      run-time:
+        description: 'run-time'
+        type: string
+        required: true
+        default: "10s"
+    push:
+      branches:
+      - main
+      - test
+      - dev 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Run Load Test
+        uses: vipin-discovery/Load-Test-GHA@master
+        with:
+          LOCUSTFILE: "locustfile.py"
+          URL:  "https://prod.playback.h264.io"
+          USERS: ${{ github.event.inputs.users }}
+          RATE: ${{ github.event.inputs.spawn-rate }}
+          RUNTIME: ${{ github.event.inputs.run-time }}
