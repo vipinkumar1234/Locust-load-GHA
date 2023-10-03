@@ -52,7 +52,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Run Load Test
-        uses: vipin-discovery/Load-Test-GHA@master
+        uses: vipinkumar1234/Locust-load-test@master
         with:
           LOCUSTFILE: "locustfile.py"
           URL:  "https://prod.playback.h264.io"
