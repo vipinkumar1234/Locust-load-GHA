@@ -1,4 +1,4 @@
-name: Running Locust Load Test
+name: Running Test
 
 on:
   workflow_dispatch:
@@ -7,43 +7,38 @@ on:
         description: 'target environment'
         required: true
         default: 'github'
-        type: string
+        type: choice
         options:
         - github
         - aws
         - azure
       host:
         required: true
-        type: string
         options:
           - https://prod.playback.h264.io
         default: "https://prod.playback.h264.io"
-        description: "Host"
+        description: "client under beam. https://prod.playback.h264.io"
       endpoint:
         required: true
-        type: string
         default: "integration"
-        description: "endpoint"
+        description: "ex. integration, nightly, gqa_core_test, regression"
       users:
         required: true
-        type: string
-        default: "5"
-        description: "Number of users"
+        default: "0 - 1000000"
+        description: "The Number of users for you want to test"
       spawn-rate:
-        description: "spawn-rate"
-        type: string
+        description: 'swapn-rate according to which you want to execute the load test'
         required: true
-        default: "5"
+        default: "0s - 1000000s"
       run-time:
-        description: 'run-time'
-        type: string
+        description: 'run-time you want to execute the test for specific time period.'
         required: true
-        default: "10s"
+        default: '10s - 43200s'
     push:
       branches:
       - main
       - test
-      - dev 
+      - dev    
 
 jobs:
   build:
