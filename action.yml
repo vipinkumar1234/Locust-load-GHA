@@ -5,34 +5,33 @@ inputs:
   LOCUSTFILE:
     description: 'The locustfile you want to use to load test. If no file is provided, a simple load test will be done on the landing page of the provided URL.'
     required: false
-  REQUIREMENTS:
-    description: 'requirements.txt file you want to use to install 3rd party dependencies. Not required.'
-    required: false
   URL:
     description: 'URL to the site you want to load test. This is Required!'
     required: true
   USERS:
-    description: 'Number of Users to spawn. Defaults to 5.'
-    required: false
-    default: '5'
+    description: 'Number of Users to spawn. '
+    required: true
   RATE:
-    description: 'Specify the hatch rate (number of users to spawn per second). Defaults to 5.'
+    description: 'Specify the hatch rate (number of users to spawn per second).'
     required: false
-    default: '5'
+    default: " "
   RUNTIME:
-    description: 'Specify the run time for a test. Defaults to 10 seconds.'
+    description: 'Specify the run time for a test. '
     required: false
-    default: '10s'
+    default: " "
+  BRANCH:
+    description: 'Branch to run the load test on.'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.LOCUSTFILE }}
-    - ${{ inputs.REQUIREMENTS }}
     - ${{ inputs.URL }}
     - ${{ inputs.USERS }}
     - ${{ inputs.RATE }}
     - ${{ inputs.RUNTIME }}
+    - ${{ inputs.BRANCH }}
 branding:
   icon: 'link'
   color: 'green'

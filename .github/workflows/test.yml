@@ -8,12 +8,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Prompt for Input
+        id: prompt
+        run: |
+          echo "Please provide the following information:"
+          read -p "Number of Users to spawn: " USERS
+          read -p "Branch to run the load test on: " BRANCH
+          echo "::set-output name=USERS::$USERS"
+          echo "::set-env name=BRANCH::$BRANCH"
+
       - name: Run Load Test
         uses: vipinkumar1234/Locust-load-GHA@master
         with:
           LOCUSTFILE: "locustfile.py"
           REQUIREMENTS: "requirements.txt"
-          URL:  "https://google.com"
-          USERS: "6"
+          URL: "https://google.com"
+          USERS: ${{ steps.prompt.outputs.USERS }}
           RATE: "6"
           RUNTIME: "10s"
