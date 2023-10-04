@@ -8,3 +8,11 @@ class UserTasks(TaskSet):
 class WebsiteUser(HttpUser):
 	tasks = [UserTasks]
 	wait_time = between(1, 5)
+
+import os
+
+# Access the BRANCH environment variable
+branch = os.getenv("BRANCH")
+
+
+
