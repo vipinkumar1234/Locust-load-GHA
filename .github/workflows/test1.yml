@@ -1,0 +1,40 @@
+name: Test Locust Load Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      users:
+        description: 'Number of Users'
+        required: true
+        default: '6'
+        type: string
+      spawn_rate:
+        description: 'Spawn Rate'
+        required: true
+        default: '6'
+        type: string
+      branch:
+        description: 'Branch'
+        required: true
+        default: 'master'
+        type: string
+      url:
+        description: 'URL'
+        required: true
+        default: 'https://google.com'
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Run Load Test
+        uses: vipinkumar1234/Locust-load-GHA@master
+        with:
+          LOCUSTFILE: "locustfile.py"
+          URL: ${{ inputs.url }}
+          USERS: ${{ inputs.users }}
+          RATE: ${{ inputs.spawn_rate }}
+          RUNTIME: "10s"
